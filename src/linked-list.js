@@ -46,7 +46,7 @@ class LinkedList {
         return node.data;
     }
 
-    insertAt(index, data) { 
+    insertAt(index, data) {
         var temp = new Node();
         temp = this._head;
         var node = new Node(data);
@@ -56,9 +56,9 @@ class LinkedList {
             }
             temp.data = node.data;
         } else {
-           return -1;
+            return -1;
         }
-
+        return this;
     }
 
     isEmpty() {
@@ -70,13 +70,16 @@ class LinkedList {
 
     clear() {
         var node = new Node();
-        for (var i = 0; i < this.length; this.length--){
-            this._tail = this.tail();
-            this._tail = node;
+        var temp = this._head;
+        for (var i = 0; i < this.length - 1; i++){
+            temp = temp.next;
+            temp.prev = node;
         }
+
         this._tail = node;
         this._head = node;
         this.length = 0;
+        return this;
     }
 
     deleteAt(index) {
@@ -85,9 +88,9 @@ class LinkedList {
         if (index == 0) {
             this._head = tempNode.next;
             if (!this._head) {
-                this._head.prev = null;
-            } else {
                 this._tail = null;
+            } else {
+                this._head.prev = null;
             }
         } else if (index == (this.length - 1)) {
             tempNode = this._tail;
@@ -101,6 +104,8 @@ class LinkedList {
             tempNode.prev.next = tempNode.next;
         }
         this.length--;
+
+        return this;
     }
 
     reverse() {
@@ -127,13 +132,19 @@ class LinkedList {
         var node_1 = new Node(data);
         var node_2 = new Node();
         var count = 0;
+        var temp = 0;
         node_2 = this._head;
         for (; count < this.length; count++){
-            if(node_1.data == node_2.data)
-                return count;
+            if(node_1.data == node_2.data) {
+                temp++;
+                break;
+            }
             node_2 = node_2.next;
         }
-        return -1;
+        if (temp == 0)
+            return -1;
+        else
+            return count;
     }
 }
 module.exports = LinkedList;
